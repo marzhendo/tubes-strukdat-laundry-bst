@@ -47,7 +47,7 @@ adrNode findMin(adrNode node) {
 
 adrNode deleteNode(adrNode root, int idHapus) {
     if (root == NULL) return root;
-
+    
     if (idHapus < root->data.idPesanan) {
         root->left = deleteNode(root->left, idHapus);
     } else if (idHapus > root->data.idPesanan) {

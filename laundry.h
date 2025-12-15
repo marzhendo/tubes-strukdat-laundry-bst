@@ -7,7 +7,7 @@
 using namespace std;
 
 // Definisi Struktur Data
-struct LaundryData {
+struct LaundryData { 
     int idPesanan;
     string namaPelanggan;
     int berat;
