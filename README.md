@@ -29,12 +29,3 @@ Kami memilih BST karena struktur ini memberikan keseimbangan performa yang baik 
 
 ---
 
-## 🚀 Fitur Utama
-
-* **[Insert] Tambah Pesanan:** Input data pelanggan (Nama, Berat, Jenis Layanan) ke dalam node tree.
-* **[Search] Cek Status:** Mencari posisi data pelanggan untuk melihat status (Pending/Proses/Selesai).
-* **[Update] Update Status:** Mengupdate status pengerjaan laundry.
-* **[View] Lihat Antrian:** Menampilkan seluruh daftar antrian yang sedang berjalan secara terurut (Ascending).
-* **[Delete] Ambil Cucian:** Menghapus node pelanggan dari tree setelah transaksi selesai/diambil.
-
----
