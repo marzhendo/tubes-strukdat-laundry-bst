@@ -21,16 +21,33 @@ int main() {
 
         switch (pilihan) {
         case 1:
+        do {
             cout << "Masukkan ID Pesanan (Angka Unik): ";
             cin >> id;
+            if (id <= 0) {
+                cout << "ID harus berupa angka positif. Silakan coba lagi." << endl;
+                continue;
+            } else if (searchNode(root, id) != NULL) {
+                cout << "ID sudah ada. Silakan masukkan ID lain." << endl;
+                id = -1;
+            }
+        } while (id <= 0);
+
             cout << "Masukkan Nama Pelanggan: ";
             cin.ignore(); 
             getline(cin, nama);
+        do {
             cout << "Masukkan Berat (kg): ";
             cin >> berat;
+            if (berat <= 0) {
+                cout << "Berat harus berupa angka positif. Silakan coba lagi." << endl;
+                continue;
+            }
+        } while (berat <= 0);
+
             root = insertNode(root, createNode(id, nama, berat));
             break;
-
+    
         case 2:
             cout << "\n--- Daftar Antrian Laundry ---" << endl;
             if (root == NULL) {
