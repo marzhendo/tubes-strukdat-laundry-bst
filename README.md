@@ -17,15 +17,3 @@
 
 ---
 
-## 📖 Deskripsi Project
-
-Sistem ini dibuat untuk membantu operasional laundry dalam mengelola antrian pelanggan. Menggunakan algoritma **Binary Search Tree (BST)**, program ini memungkinkan admin untuk:
-1.  Menyimpan data pesanan (Order) dengan cepat.
-2.  Mencari status cucian pelanggan berdasarkan ID/Nama dalam waktu logaritmik $O(\log n)$.
-3.  Menampilkan antrian secara urut (Sorting) otomatis menggunakan traversal In-Order.
-
-### Mengapa BST?
-Kami memilih BST karena struktur ini memberikan keseimbangan performa yang baik antara proses *insertion* (tambah antrian) dan *searching* (cek status) dibandingkan dengan Array atau Linked List biasa.
-
----
-
