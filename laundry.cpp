@@ -35,12 +35,56 @@ void insertNode(address &root, infotype data) {
     if (isEmpty(root)) {
         root = createNode(data);
     } else {
+<<<<<<< HEAD
         bool kiri = false;
         if (data.tipe < root->info.tipe) kiri = true;
         else if (data.tipe == root->info.tipe) {
             if (data.berat < root->info.berat) kiri = true;
             else if (data.berat == root->info.berat && data.id < root->info.id)
                 kiri = true;
+=======
+        cout << "Error: ID Pesanan " << newNode->data.idPesanan << " sudah ada!" << endl;
+    }
+    return root;
+}
+
+adrNode searchNode(adrNode root, int idDicari) {
+    if (root == NULL || root->data.idPesanan == idDicari) {
+        return root;
+    }
+
+    if (idDicari < root->data.idPesanan) {
+        return searchNode(root->left, idDicari);
+    }
+    return searchNode(root->right, idDicari);
+}
+
+adrNode findMin(adrNode node) {
+    adrNode current = node;
+    while (current && current->left != NULL) {
+        current = current->left;
+    }
+    return current;
+}
+
+adrNode deleteNode(adrNode root, int idHapus) {
+    if (root == NULL) return root;
+    
+    if (idHapus < root->data.idPesanan) {
+        root->left = deleteNode(root->left, idHapus);
+    } else if (idHapus > root->data.idPesanan) {
+        root->right = deleteNode(root->right, idHapus);
+    } else {
+        // Node ditemukan
+        if (root->left == NULL) {
+            adrNode temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == NULL) {
+            adrNode temp = root->left;
+            delete root;
+            return temp;
+>>>>>>> 0077793221dc214904c67ad19b3fcebc626d023b
         }
         if (kiri) insertNode(root->left, data);
         else insertNode(root->right, data);

@@ -10,6 +10,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 // --- KONFIGURASI HARGA ---
 const double HARGA_REGULER = 6000;
 const double HARGA_EXPRESS = 10000;
@@ -24,6 +25,14 @@ struct Laundry {
     int tahun;              
     string waktuMasuk;
     double totalBayar;
+=======
+// Definisi Struktur Data
+struct LaundryData { 
+    int idPesanan;
+    string namaPelanggan;
+    int berat;
+    string status;
+>>>>>>> 0077793221dc214904c67ad19b3fcebc626d023b
 };
 
 typedef Laundry infotype;
