@@ -1,107 +1,131 @@
-#include <iostream>
-#include "laundry.h" // Wajib include header buatan sendiri
-
-using namespace std;
+#include "laundry.h"
 
 int main() {
-    adrNode root = NULL;
-    int pilihan, id, berat;
-    string nama;
+    address root = NULL;
+    int pilihan;
+    int autoID = 0;
+
+    string inNama;
+    int inTipe;
+    float inBerat;
 
     do {
-        cout << "\n=== LAUNDRY FRESHNODE SYSTEM (BST) ===" << endl;
-        cout << "1. Tambah Pesanan Baru" << endl;
-        cout << "2. Lihat Daftar Antrian" << endl;
-        cout << "3. Tracking Status Cucian" << endl;
-        cout << "4. Update Status Cucian" << endl;
-        cout << "5. Ambil Cucian (Checkout)" << endl;
-        cout << "0. Keluar" << endl;
+        cout << "\n=======================================================" << endl;
+        cout << "                      Fresh Node                       " << endl;
+        cout << "=======================================================" << endl;
+        cout << "1. Tambah Cucian (Auto Hitung Harga)" << endl;
+        cout << "2. Lihat Antrian & Pendapatan" << endl;
+        cout << "3. Proses Cucian (Next Job)" << endl;
+        cout << "4. Cari Data (ID / Berat / Nama)" << endl;
+        cout << "5. Keluar" << endl;
         cout << "Pilihan: ";
         cin >> pilihan;
 
         switch (pilihan) {
-        case 1:
-        do {
-            cout << "Masukkan ID Pesanan (Angka Unik): ";
-            cin >> id;
-            if (id <= 0) {
-                cout << "ID harus berupa angka positif. Silakan coba lagi." << endl;
-                continue;
-            } else if (searchNode(root, id) != NULL) {
-                cout << "ID sudah ada. Silakan masukkan ID lain." << endl;
-                id = -1;
-            }
-        } while (id <= 0);
+            case 1: {
+                cout << "\n[INPUT DATA]" << endl;
+                cout << "Nama Pelanggan : ";
+                cin.ignore();
+                getline(cin, inNama);
+                cout << "Tipe (1=Express, 2=Reguler) : ";
+                cin >> inTipe;
+                do {
+                    cout << "Berat (Kg) : ";
+                    cin >> inBerat;
 
-            cout << "Masukkan Nama Pelanggan: ";
-            cin.ignore(); 
-            getline(cin, nama);
-        do {
-            cout << "Masukkan Berat (kg): ";
-            cin >> berat;
-            if (berat <= 0) {
-                cout << "Berat harus berupa angka positif. Silakan coba lagi." << endl;
-                continue;
-            }
-        } while (berat <= 0);
+                    if (inBerat < 1) {
+                        cout << ">> Gagal: Berat minimal 1 Kg.\n";
+                    }
+                } while (inBerat < 1);
 
-            root = insertNode(root, createNode(id, nama, berat));
-            break;
-    
-        case 2:
-            cout << "\n--- Daftar Antrian Laundry ---" << endl;
-            if (root == NULL) {
-                cout << "(Antrian Kosong)" << endl;
-            } else {
-                printAntrian(root);
-            }
-            break;
+                autoID++;
+                infotype newData = newLaundryData(autoID, inNama, inTipe, inBerat);
 
-        case 3:
-            cout << "Masukkan ID untuk Tracking: ";
-            cin >> id;
-            {
-                adrNode hasil = searchNode(root, id);
-                if (hasil != NULL) {
-                    cout << "\n[DITEMUKAN]" << endl;
-                    cout << "Nama: " << hasil->data.namaPelanggan << endl;
-                    cout << "Status: " << hasil->data.status << endl;
+                insertNode(root, newData);
+
+                cout << ">> Sukses! Total Tagihan: " << formatRupiah(newData.totalBayar);
+                if (inBerat > MIN_BERAT_DISKON)
+                cout << " (Termasuk Diskon 10%)";
+                cout << endl;
+                break;
+            }
+            case 2: {
+                cout << "\n[DAFTAR ANTRIAN & HARGA]" << endl;
+                cout << "-------------------------------------------------------------" << endl;
+                cout << "| No | Jam Masuk | Nama Pelanggan | Tipe | Berat (Kg) | Tahun  | Tagihan |" << endl;
+                cout << "-------------------------------------------------------------" << endl;
+                if (isEmpty(root)) {
+                    cout << "|                      ANTRIAN KOSONG                       |" << endl;
                 } else {
-                    cout << "\n[TIDAK DITEMUKAN]" << endl;
+                    printInOrder(root);
                 }
+                cout << "-------------------------------------------------------------" << endl;
+                break;
             }
-            break;
+            case 3: {
+                infotype diproses;
+                bool status;
+                processOrder(root, diproses, status);
+                if (status) {
+                    cout << "\n>> CUCIAN SELESAI DIPROSES:" << endl;
+                    cout << "   Pelanggan : " << diproses.nama << endl;
+                    cout << "   Total Bayar : " << formatRupiah(diproses.totalBayar) << endl;
+                    cout << "   Status    : Dihapus dari antrian." << endl;
+                } else {
+                    cout << ">> Gagal: Antrian kosong." << endl;
+                }
+                break;
+            }
+            case 4: {
+                int subPilih;
+                cout << "\n[PENCARIAN DATA]" << endl;
+                cout << "1. Cari berdasarkan ID Transaksi" << endl;
+                cout << "2. Cari berdasarkan Berat Cucian" << endl;
+                cout << "3. Cari berdasarkan Nama Pelanggan" << endl;
+                cout << "Pilih: ";
+                cin >> subPilih;
 
-        case 4:
-            cout << "Masukkan ID yang akan diupdate: ";
-            cin >> id;
-            if (searchNode(root, id) != NULL) {
-                cout << "Pilih Status (1. Dicuci, 2. Disetrika, 3. Selesai): ";
-                int s;
-                cin >> s;
-                string statBaru;
-                if (s == 1) statBaru = "Sedang Dicuci";
-                else if (s == 2) statBaru = "Sedang Disetrika";
-                else statBaru = "Siap Diambil";
-                
-                updateStatus(root, id, statBaru);
-            } else {
-                cout << "Data tidak ditemukan." << endl;
-            }
-            break;
+                if (subPilih == 1) {
+                    int cariID;
+                    cout << "Masukkan ID: ";
+                    cin >> cariID;
+                    address hasil = searchByID(root, cariID);
 
-        case 5:
-            cout << "Masukkan ID Pesanan yang diambil: ";
-            cin >> id;
-            if (searchNode(root, id) != NULL) {
-                root = deleteNode(root, id);
-                cout << "Pesanan ID " << id << " berhasil diambil (dihapus)." << endl;
-            } else {
-                cout << "Data tidak ditemukan." << endl;
+                    if (hasil != NULL) {
+                        cout << ">> DITEMUKAN: " << hasil->info.nama
+                             << " | Berat: " << hasil->info.berat << "kg"
+                             << " | Tagihan: " << formatRupiah(hasil->info.totalBayar) << endl;
+                    } else {
+                        cout << ">> Data dengan ID " << cariID << " tidak ditemukan." << endl;
+                    }
+                } else if (subPilih == 2) {
+                    float cariBerat;
+                    bool ketemu = false;
+                    cout << "Masukkan Berat (Kg): ";
+                    cin >> cariBerat;
+                    cout << ">> Hasil Pencarian Berat " << cariBerat << " kg:" << endl;
+                    searchByWeight(root, cariBerat, ketemu);
+
+                    if (!ketemu) cout << "(Tidak ada data dengan berat tersebut)" << endl;
+                } else if (subPilih == 3) {
+                    string cariNama;
+                    bool ketemu = false;
+
+                    cout << "Masukkan Nama Pelanggan: ";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    getline(cin, cariNama);
+
+                    cout << ">> Hasil Pencarian Nama \"" << cariNama << "\":" << endl;
+                    searchByName(root, cariNama, ketemu);
+
+                    if (!ketemu)
+                    cout << "(Tidak ada data dengan nama tersebut)" << endl;
+                    }
+                    break;
+
             }
-            break;
         }
-    } while (pilihan != 0);
+    } while (pilihan != 5);
 
     return 0;
 }

@@ -3,38 +3,59 @@
 
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include <ctime>
+#include <limits>
+
 
 using namespace std;
 
-// Definisi Struktur Data
-struct LaundryData {
-    int idPesanan;
-    string namaPelanggan;
-    int berat;
-    string status;
+// --- KONFIGURASI HARGA ---
+const double HARGA_REGULER = 6000;
+const double HARGA_EXPRESS = 10000;
+const float MIN_BERAT_DISKON = 10.0;
+const double PERSEN_DISKON = 0.10;
+
+struct Laundry {
+    int id;
+    string nama;
+    int tipe;
+    float berat;
+    int tahun;              
+    string waktuMasuk;
+    double totalBayar;
 };
+
+typedef Laundry infotype;
+typedef struct Node *address;
 
 struct Node {
-    LaundryData data;
-    Node* left;
-    Node* right;
+    infotype info;
+    address left;
+    address right;
 };
 
-typedef Node* adrNode;
+// --- BST ---
+bool isEmpty(address root);
+address createNode(infotype data);
+void insertNode(address &root, infotype data);
+void processOrder(address &root, infotype &keluaran, bool &berhasil);
+void printInOrder(address root);
 
-// Prototype Fungsi (Daftar Isi)
+// --- SEARCH ---
+address searchByID(address root, int cariID);
+void searchByWeight(address root, float cariBerat, bool &found);
+void searchByName(address root, string cariNama, bool &found);
 
-// Creator
-adrNode createNode(int id, string nama, int berat);
 
-// Operasi BST Utama
-adrNode insertNode(adrNode root, adrNode newNode);
-adrNode searchNode(adrNode root, int idDicari);
-adrNode deleteNode(adrNode root, int idHapus);
+// --- FITUR BARU (RELEVAN TREE) ---
+void filterByYear(address root, int tahun, bool &found);
+double totalPendapatanByYear(address root, int tahun);
 
-// Helper / Bantuan
-adrNode findMin(adrNode node);
-void printAntrian(adrNode root);
-void updateStatus(adrNode root, int id, string statusBaru);
+// --- HELPER ---
+infotype newLaundryData(int id, string nama, int tipe, float berat);
+string getRealTime();
+int getCurrentYear();       
+string formatRupiah(double angka);
 
 #endif
