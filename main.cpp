@@ -26,27 +26,38 @@ int main() {
 
         switch (pilihan) {
             case 1: {
-                cout << "\n[INPUT DATA BARU]" << endl;
-                cout << "Nama Pelanggan : ";
-                cin.ignore();
-                getline(cin, inNama);
+            cout << "\n[INPUT DATA BARU]" << endl;
+            cout << "Nama Pelanggan : ";
+            cin.ignore();
+            getline(cin, inNama);
+
+            while (true) {
                 cout << "Tipe (1=Express, 2=Reguler) : ";
-                cin >> inTipe;
-                do {
-                    cout << "Berat (Kg) : ";
-                    cin >> inBerat;
-                    if (inBerat < 1) cout << ">> Berat minimal 1 Kg.\n";
-                } while (inBerat < 1);
+                if (!(cin >> inTipe)) {
+                cout << ">> Input tidak valid. Masukkan angka.\n";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+                }
+                if (inTipe == 1 || inTipe == 2) break;
+                cout << ">> Invalid! Pilihan hanya 1 atau 2.\n";
+            }
 
-                autoID++;
-                infotype newData = newLaundryData(autoID, inNama, inTipe, inBerat);
-                insertNode(root, newData);
+            do {
+                cout << "Berat (Kg) : ";
+                cin >> inBerat;
+                if (inBerat < 1) cout << ">> Berat minimal 1 Kg.\n";
+            } while (inBerat < 1);
 
-                cout << ">> Sukses! ID Transaksi: " << autoID << endl;
-                cout << "   Total: " << formatRupiah(newData.totalBayar);
-                if (inBerat > MIN_BERAT_DISKON) cout << " (Diskon 10%)";
-                cout << endl;
-                break;
+            autoID++;
+            infotype newData = newLaundryData(autoID, inNama, inTipe, inBerat);
+            insertNode(root, newData);
+
+            cout << ">> Sukses! ID Transaksi: " << autoID << endl;
+            cout << "   Total: " << formatRupiah(newData.totalBayar);
+            if (inBerat > MIN_BERAT_DISKON) cout << " (Diskon 10%)";
+            cout << endl;
+            break;
             }
             case 2: {
                 cout << "\n[MONITORING STATUS LAUNDRY]" << endl;
@@ -160,8 +171,13 @@ int main() {
                 }
                 break;
             }
+            default:
+                if (pilihan != 0)
+                    cout << ">> Pilihan tidak valid. Pilih yang tersedia (0-7)." << endl;
+                break;
         }
     } while (pilihan != 0);
+    cout << ">> Terima kasih telah menggunakan Fresh Node." << endl;
 
     return 0;
 }
