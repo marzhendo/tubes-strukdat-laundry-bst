@@ -9,6 +9,12 @@ int main() {
     int inTipe;
     float inBerat;
 
+    autoID++;
+    insertNode(root, newLaundryData(autoID, "Aedil Tegal", 1, 6.0));
+    autoID++;
+    insertNode(root, newLaundryData(autoID, "Fatir Biawak", 2, 12.0));
+    autoID++;
+    insertNode(root, newLaundryData(autoID, "Maruf PSHT", 1, 5.0));
     do {
         cout << "\n====================================================================" << endl;
         cout << "                           Fresh Node Laundry                           " << endl;
