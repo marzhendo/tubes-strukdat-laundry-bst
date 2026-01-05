@@ -49,11 +49,20 @@ int main() {
                 cout << ">> Invalid! Pilihan hanya 1 atau 2.\n";
             }
 
-            do {
+            while (true) {
                 cout << "Berat (Kg) : ";
-                cin >> inBerat;
-                if (inBerat < 1) cout << ">> Berat minimal 1 Kg.\n";
-            } while (inBerat < 1);
+                if (!(cin >> inBerat)) {
+                    cout << ">> Input tidak valid. Masukkan angka.\n";
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    continue;
+                }
+                if (inBerat < 1) {
+                    cout << ">> Berat minimal 1 Kg.\n";
+                    continue;
+                }
+                break;
+            }
 
             autoID++;
             infotype newData = newLaundryData(autoID, inNama, inTipe, inBerat);
