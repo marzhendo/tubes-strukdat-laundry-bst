@@ -9,13 +9,13 @@
 
 using namespace std;
 
-// --- KONFIGURASI HARGA ---
+// --- SETTING HARGA ---
 const double HARGA_REGULER = 6000;
 const double HARGA_EXPRESS = 10000;
 const float MIN_BERAT_DISKON = 10.0;
 const double PERSEN_DISKON = 0.10;
 
-// --- KONFIGURASI STATUS ---
+// --- SETTING STATUS ---
 const int STS_ANTRI = 0;
 const int STS_PROSES = 1;
 const int STS_SELESAI = 2;
@@ -40,24 +40,24 @@ struct Node {
     address right;
 };
 
-// --- BST UTAMA ---
+// --- BST ---
 bool isEmpty(address root);
 address createNode(infotype data);
 void insertNode(address &root, infotype data);
 void printInOrder(address root);
 
 // --- OPERASIONAL ---
-void processNextJob(address root, bool &berhasil); // Mengubah status Antri -> Proses
-void markAsFinished(address root, int id, bool &berhasil); // Mengubah Proses -> Selesai
-void updateData(address &root, int id); // Fitur Update (Edit/Delete) khusus Antri
-bool deleteNodeByID(address &root, int id); // Helper untuk menghapus node
+void processNextJob(address root, bool &berhasil); 
+void markAsFinished(address root, int id, bool &berhasil);
+void updateData(address &root, int id); 
+bool deleteNodeByID(address &root, int id); 
 
 // --- SEARCH ---
 address searchByID(address root, int cariID);
 void searchByWeight(address root, float cariBerat, bool &found);
 void searchByName(address root, string cariNama, bool &found);
 
-// --- HELPER ---
+
 infotype newLaundryData(int id, string nama, int tipe, float berat);
 string getRealTime();
 int getCurrentYear();

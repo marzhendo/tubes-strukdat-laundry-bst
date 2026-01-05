@@ -161,7 +161,7 @@ int main() {
                 else if (target->info.status != STS_SELESAI) { 
                     cout << ">> Gagal: Hanya cucian status 'SELESAI' yang boleh dihapus." << endl;
                     cout << "   Status cucian ini: " << getStatusLabel(target->info.status) << endl;
-                    cout << "   (Selesaikan cucian terlebih dahulu jika ingin menghapus)" << endl;
+                    cout << "   (Selesaikan cucian dulu jika ingin menghapus)" << endl;
                 } else {
                     char yakin;
                     cout << ">> Data: " << target->info.nama << " (Tagihan Lunas)\n";
