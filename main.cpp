@@ -83,9 +83,18 @@ int main() {
             }
             case 4: {
                 int subPilih;
-                cout << "\n[PENCARIAN DATA]" << endl;
-                cout << "1. Cari ID\n2. Cari Berat\n3. Cari Nama\nPilih: ";
-                cin >> subPilih;
+                while (true) {
+                    cout << "\n[PENCARIAN DATA]" << endl;
+                    cout << "1. Cari ID\n2. Cari Berat\n3. Cari Nama\nPilih: ";
+                    if (!(cin >> subPilih)) {
+                        cout << ">> Input tidak valid. Masukkan angka 1-3.\n";
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        continue;
+                    }
+                    if (subPilih >= 1 && subPilih <= 3) break;
+                    cout << ">> Pilihan hanya 1, 2, atau 3.\n";
+                }
 
                 if (subPilih == 1) {
                     int cariID;
