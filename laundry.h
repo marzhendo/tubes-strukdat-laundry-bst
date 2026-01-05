@@ -7,7 +7,6 @@
 #include <ctime>
 #include <limits>
 
-
 using namespace std;
 
 // --- KONFIGURASI HARGA ---
@@ -16,14 +15,20 @@ const double HARGA_EXPRESS = 10000;
 const float MIN_BERAT_DISKON = 10.0;
 const double PERSEN_DISKON = 0.10;
 
+// --- KONFIGURASI STATUS ---
+const int STS_ANTRI = 0;
+const int STS_PROSES = 1;
+const int STS_SELESAI = 2;
+
 struct Laundry {
     int id;
     string nama;
-    int tipe;
+    int tipe;       // 1: Express, 2: Reguler
     float berat;
-    int tahun;              
+    int tahun;
     string waktuMasuk;
     double totalBayar;
+    int status;     // 0: Antri, 1: Proses, 2: Selesai
 };
 
 typedef Laundry infotype;
@@ -35,12 +40,17 @@ struct Node {
     address right;
 };
 
-// --- BST ---
+// --- BST UTAMA ---
 bool isEmpty(address root);
 address createNode(infotype data);
 void insertNode(address &root, infotype data);
-void processOrder(address &root, infotype &keluaran, bool &berhasil);
 void printInOrder(address root);
+
+// --- OPERASIONAL ---
+void processNextJob(address root, bool &berhasil); // Mengubah status Antri -> Proses
+void markAsFinished(address root, int id, bool &berhasil); // Mengubah Proses -> Selesai
+void updateData(address &root, int id); // Fitur Update (Edit/Delete) khusus Antri
+bool deleteNodeByID(address &root, int id); // Helper untuk menghapus node
 
 // --- SEARCH ---
 address searchByID(address root, int cariID);
@@ -50,7 +60,8 @@ void searchByName(address root, string cariNama, bool &found);
 // --- HELPER ---
 infotype newLaundryData(int id, string nama, int tipe, float berat);
 string getRealTime();
-int getCurrentYear();       
+int getCurrentYear();
 string formatRupiah(double angka);
+string getStatusLabel(int status);
 
 #endif
